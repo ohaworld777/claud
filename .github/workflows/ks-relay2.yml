@@ -1,0 +1,28 @@
+name: ks-image-relay-2
+on: push
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: download images
+        run: |
+          mkdir -p relay
+          while read -r name url; do
+            [ -z "$name" ] && continue
+            echo "fetch $name"
+            curl -sSL --retry 3 -o "relay/$name" "$url"
+          done <<'EOF'
+          02_new.png https://pikaso.cdnpk.net/private/production/5213805211/render.png?token=exp=1787443200~hmac=ccdbac45ce6128b4f39e87c0a5771276e8364ace9dc8330599e3e108eb443ca5
+          15_new.png https://pikaso.cdnpk.net/private/production/5213788505/render.png?token=exp=1787443200~hmac=bb29764820c3b7c4b4a523bf1206a2100764f987aeb030e4d2e2e524d36070ab
+          EOF
+          ls -la relay
+      - name: commit images
+        run: |
+          git config user.name "ks-relay"
+          git config user.email "relay@users.noreply.github.com"
+          git add relay
+          git commit -m "add regenerated slide images" || echo "no changes"
+          git push

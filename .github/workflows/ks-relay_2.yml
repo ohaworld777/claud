@@ -1,0 +1,46 @@
+name: ks-image-relay
+on: push
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: download images
+        run: |
+          mkdir -p relay
+          while read -r name url; do
+            [ -z "$name" ] && continue
+            echo "fetch $name"
+            curl -sSL --retry 3 -o "relay/$name" "$url"
+          done <<'EOF'
+          01.png https://pikaso.cdnpk.net/private/production/5214192669/render.png?token=exp=1787443200~hmac=5cffeb22c4c65e6a397102ee35ec01e7949ba1968290dd68ad900231ee71c36a
+          02.png https://pikaso.cdnpk.net/private/production/5214193428/render.png?token=exp=1787443200~hmac=d640a2dc745df925fad84acaf53c3ea929b44aac516f6aa5e04af31e828ce35d
+          03.png https://pikaso.cdnpk.net/private/production/5214196124/render.png?token=exp=1787443200~hmac=6e3b5a03d8c823056b4e57e43791bd37c3cf166eed85016d3e5466bd907dedb2
+          04.png https://pikaso.cdnpk.net/private/production/5214195513/render.png?token=exp=1787443200~hmac=f61df28c06a7d907e01a6214ec634bc1259573bc5b372b7fb60a3eb08680efcd
+          05.png https://pikaso.cdnpk.net/private/production/5214196766/render.png?token=exp=1787443200~hmac=006ce85fe1a32e6e343cc542929ede9b2e1be21c455abf5184d317724b21cf13
+          06.png https://pikaso.cdnpk.net/private/production/5214200113/render.png?token=exp=1787443200~hmac=ac80f9b4cbc58e20ef8bdb0fbcdcf4b4c83db014cb888063c39b9265fc4f3ec6
+          07.png https://pikaso.cdnpk.net/private/production/5214201169/render.png?token=exp=1787443200~hmac=0df009c763fbf677440864b19ff3c98eb373884da7d1a0e344ec2112866c3088
+          08.png https://pikaso.cdnpk.net/private/production/5214203439/render.png?token=exp=1787443200~hmac=e01170ec69d1369fa02bbfc44b1db294f8b6d52b093983a12e2d8151d2b01695
+          09.png https://pikaso.cdnpk.net/private/production/5214203772/render.png?token=exp=1787443200~hmac=fcf0e7da7695b55e768297258c6556158043ce79b42bfa309617bc76565e0b16
+          10.png https://pikaso.cdnpk.net/private/production/5214204543/render.png?token=exp=1787443200~hmac=8c373729555f6d237637a7bfc463a15e3749b988011b1955b97e4031b25b930a
+          11.png https://pikaso.cdnpk.net/private/production/5214207571/render.png?token=exp=1787443200~hmac=cc930a49640212bec9a069bb629d4705fc892da4a40544ebdef1790e14fa7957
+          12.png https://pikaso.cdnpk.net/private/production/5214209156/render.png?token=exp=1787443200~hmac=8f19c139613c22943387b2ac055eb0d756415b335dfec8749263188a3bf56dd7
+          13.png https://pikaso.cdnpk.net/private/production/5214210241/render.png?token=exp=1787443200~hmac=f77b0adc326c1d10d31dcae17fe4ad06d982d4d08e2223fe7b7d74d7a0dbff1f
+          14.png https://pikaso.cdnpk.net/private/production/5214212303/render.png?token=exp=1787443200~hmac=81968d58e7a122553b692c2b1b01a2ef1e7d790955458c0dce2318b7eee253c9
+          15.png https://pikaso.cdnpk.net/private/production/5214213458/render.png?token=exp=1787443200~hmac=b640e735141b4a8a9783fe6ba71096b5195196633fc9d02ea2940c4f431b2e7b
+          16.png https://pikaso.cdnpk.net/private/production/5214217551/render.png?token=exp=1787443200~hmac=0791dc252dafabc1946a320e258dc559d7b4f4be11d8aa85098d9b017845ffd4
+          17.png https://pikaso.cdnpk.net/private/production/5214218172/render.png?token=exp=1787443200~hmac=cc99278189368d689bfc660694760c33df10581525ab0c3a26114371dad1b435
+          18.png https://pikaso.cdnpk.net/private/production/5214220366/render.png?token=exp=1787443200~hmac=0ac5bea194edf99f55886b34ec86f63d0d1b18a8ba5cbecc09653136a093a809
+          19.png https://pikaso.cdnpk.net/private/production/5214221536/render.png?token=exp=1787443200~hmac=18c5985f90cc4dbb38538a6a92416280a75f5ac3ae35b29296c2af049ca03c6c
+          20.png https://pikaso.cdnpk.net/private/production/5214223994/render.png?token=exp=1787443200~hmac=78804094ea782b1ac650f542bfdc01e41fcc73151562d758208da842d56dd33b
+          EOF
+          ls -la relay
+      - name: commit images
+        run: |
+          git config user.name "ks-relay"
+          git config user.email "relay@users.noreply.github.com"
+          git add relay
+          git commit -m "add relayed slide images" || echo "no changes"
+          git push

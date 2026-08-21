@@ -9,38 +9,38 @@ jobs:
       - uses: actions/checkout@v4
       - name: download images
         run: |
-          mkdir -p relay
+          mkdir -p relay/uav
           while read -r name url; do
             [ -z "$name" ] && continue
             echo "fetch $name"
-            curl -sSL --retry 3 -o "relay/$name" "$url"
+            curl -sSL --retry 3 -o "relay/uav/$name" "$url"
           done <<'EOF'
-          charsheet.png https://pikaso.cdnpk.net/private/production/5213554166/render.png?token=exp=1787443200~hmac=7c712101608cb05bc5997f44c37d7e331985543522ea1fb66d63efe41c51a1f2
-          01.png https://pikaso.cdnpk.net/private/production/5213593802/render.png?token=exp=1787443200~hmac=3ff2ddfd0a094d6058bacc479ed0b3963fc91e3ef75ac4e116d5a4b72ab3242e
-          02.png https://pikaso.cdnpk.net/private/production/5213554940/render.png?token=exp=1787443200~hmac=926961d60197e07b3fd65f08e7664a20896d3a274874f5a27f8f71cbbd53054b
-          03.png https://pikaso.cdnpk.net/private/production/5213556828/render.png?token=exp=1787443200~hmac=b473ef45fc6fa6a0a00244302146081e6b419227d91a9649229fd53c200475fa
-          04.png https://pikaso.cdnpk.net/private/production/5213594195/render.png?token=exp=1787443200~hmac=9f6677eee9731b8e2355a4a124420e9df3819b60fe36ab66a5d3c6924c972d96
-          05.png https://pikaso.cdnpk.net/private/production/5213557653/render.png?token=exp=1787443200~hmac=e03723957016a844a61958d59aad091c7eab75f12c8cc91ce655ebfa41c7082d
-          06.png https://pikaso.cdnpk.net/private/production/5213594775/render.png?token=exp=1787443200~hmac=1f41c18967761b87b070a666e80d65877bc5e75a0f7a8a0cca4d2a5ef6987132
-          07.png https://pikaso.cdnpk.net/private/production/5213556056/render.png?token=exp=1787443200~hmac=3b38d87dcbb3f4b33323142a6902c8969dce6972aa154bf0dd468aa7ff000e51
-          08.png https://pikaso.cdnpk.net/private/production/5213595211/render.png?token=exp=1787443200~hmac=02329f4a42685726419f2db0516c767ab0f46835f54e131d25509718be7e11aa
-          09.png https://pikaso.cdnpk.net/private/production/5213557025/render.png?token=exp=1787443200~hmac=2e925a485310f959422475886f1658dc0ce6eaa913c0d236b0b4d0b915928a79
-          10.png https://pikaso.cdnpk.net/private/production/5213596419/render.png?token=exp=1787443200~hmac=628e180a8d488aa49a07fc608b25515c7b752c08a994d79273f92666cfe7f3f7
-          11.png https://pikaso.cdnpk.net/private/production/5213556968/render.png?token=exp=1787443200~hmac=32be0a5ca030f558d1393421eab2b0a8ad5de4812825f1a0c1b8c1d3a8bd3c31
-          12.png https://pikaso.cdnpk.net/private/production/5213597349/render.png?token=exp=1787443200~hmac=3beeb043d71dab026cd8d5a9ad25209da69b0d79bdaf71f71a4b3fd650ffdd28
-          13.png https://pikaso.cdnpk.net/private/production/5213596711/render.png?token=exp=1787443200~hmac=a1b116bdeeeb175237a8c4f31e941a2ab0af6a46cdaf9fae0314fc63c5882772
-          14.png https://pikaso.cdnpk.net/private/production/5213558105/render.png?token=exp=1787443200~hmac=6997e591994505d58f81091f92641937c9af058c85807306ffccc16cc18b87ba
-          15.png https://pikaso.cdnpk.net/private/production/5213597773/render.png?token=exp=1787443200~hmac=8beeb5586236383a9728d0d00a6d3ac2365b5fdf0384d80314b4412e1ab07807
-          16.png https://pikaso.cdnpk.net/private/production/5213597962/render.png?token=exp=1787443200~hmac=5c471c9ca8fca46f1e47d34840ace8374a39fcfc9744f2b56d5e229560753d56
-          17.png https://pikaso.cdnpk.net/private/production/5213598580/render.png?token=exp=1787443200~hmac=db20495e17178d94460224b044985d5470c981c1f492209a35c012645e0e1be1
-          18.png https://pikaso.cdnpk.net/private/production/5213599040/render.png?token=exp=1787443200~hmac=8a9604dfe23fa185b8c86decb7e27986aabc87949a9fefb0642c6d8eecf5bf72
-          19.png https://pikaso.cdnpk.net/private/production/5213599435/render.png?token=exp=1787443200~hmac=269347363d7356b48c91a569806a581d69cbc12a9d318c9ee1c68647e16361bd
+          pilot.png https://pikaso.cdnpk.net/private/production/5224920556/render.png?token=exp=1787702400~hmac=ecb703ca41d885e54d545af3f8e5a22ed5d7ab16704fd90f2223ecf165571730
+          01.png https://pikaso.cdnpk.net/private/production/5224936819/render.png?token=exp=1787702400~hmac=1c54800936004f6f1a8ee7ea8c4cfab2ee832d56bc410e1e2fbe7d3669706d22
+          02.png https://pikaso.cdnpk.net/private/production/5224938209/render.png?token=exp=1787702400~hmac=4695d1baf4dadb338c207ae870acfefe70924d6601dd21e78a7dc79d9f3f3b77
+          03.png https://pikaso.cdnpk.net/private/production/5224937413/render.png?token=exp=1787702400~hmac=efaec0ccd286f7d66c4d88d75cd644223b34d9a36f4e42f1920db268240a60fc
+          04.png https://pikaso.cdnpk.net/private/production/5224940770/render.png?token=exp=1787702400~hmac=340a0af3d9197f6e97b85541c176e44ee7104d9a8fe31e7f80ad99248bc34fbc
+          05.png https://pikaso.cdnpk.net/private/production/5224940025/render.png?token=exp=1787702400~hmac=c19afc4a5f6b66816236f3fb7fabb0d0946a4732629137e24842aebb13c40925
+          06.png https://pikaso.cdnpk.net/private/production/5224941195/render.png?token=exp=1787702400~hmac=0007a175f49d849609e072c0a137a3b7688b6d0c8f6b7a696e81f931b3505952
+          07.png https://pikaso.cdnpk.net/private/production/5224940211/render.png?token=exp=1787702400~hmac=ff915f730ecf5496ee093f9bee694be926f8753778669861535e24249f9fce58
+          08.png https://pikaso.cdnpk.net/private/production/5224941848/render.png?token=exp=1787702400~hmac=b774ef5445e9d65ee3235b84a4e0e4a1d446acc9b35a97f4556a9279670c06de
+          09.png https://pikaso.cdnpk.net/private/production/5224942470/render.png?token=exp=1787702400~hmac=cfde32df86811ef04afa257dc1858f84047684f15540e61973e7388348bb1252
+          10.png https://pikaso.cdnpk.net/private/production/5224943201/render.png?token=exp=1787702400~hmac=bd41074363a997ee819685b95d28afd9d56ef66fb3b08aefc123f4cb97ed7430
+          11.png https://pikaso.cdnpk.net/private/production/5224945349/render.png?token=exp=1787702400~hmac=977d6a2babeb60a84b7bde557a06d9aa2b6727bd318e14a481caa012e6018461
+          12.png https://pikaso.cdnpk.net/private/production/5224944575/render.png?token=exp=1787702400~hmac=4da4d8533b2428d04ca288de7b89ceefc7802801585cc305b388d1a83e3eb972
+          13.png https://pikaso.cdnpk.net/private/production/5224946092/render.png?token=exp=1787702400~hmac=479114020a9f52e66b770ab2c89117cd2d5cd0be449d33cd524b1846e5346049
+          14.png https://pikaso.cdnpk.net/private/production/5224946700/render.png?token=exp=1787702400~hmac=0f8153b2eb37053a6bddbfc16a3663b685436f24ced2805fcf0f9acdab454fae
+          15.png https://pikaso.cdnpk.net/private/production/5224946476/render.png?token=exp=1787702400~hmac=32f6a7877851e5ca381517828945902a7d7a93e93e99e01bfd9414a06e528e36
+          16.png https://pikaso.cdnpk.net/private/production/5224946959/render.png?token=exp=1787702400~hmac=f827e5caf4dad9fc364674bf68270f686497c22e7aa4143eaaa7559fe0e78427
+          17.png https://pikaso.cdnpk.net/private/production/5224948667/render.png?token=exp=1787702400~hmac=8591d1c8a4decf0f8611046205b92ae54b4412cbfbdae11c48cd6569424b1931
+          18.png https://pikaso.cdnpk.net/private/production/5224950259/render.png?token=exp=1787702400~hmac=7ffb0e6c703a0baac4225e95f6ac78070ffe9af8705ebf06d6881fae81b63bde
+          19.png https://pikaso.cdnpk.net/private/production/5224950234/render.png?token=exp=1787702400~hmac=f8ed2ad7570f3f6ed6496dc54041ce93fd8eb7f3883ad41c0b6c84c7bd45ed98
           EOF
-          ls -la relay
+          ls -la relay/uav
       - name: commit images
         run: |
           git config user.name "ks-relay"
           git config user.email "relay@users.noreply.github.com"
           git add relay
-          git commit -m "add relayed slide images" || echo "no changes"
+          git commit -m "add relayed uav slide images" || echo "no changes"
           git push

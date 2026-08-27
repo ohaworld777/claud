@@ -1,0 +1,37 @@
+name: ks-image-relay-3
+on: push
+concurrency:
+  group: ks-relay
+  cancel-in-progress: false
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: download images
+        run: |
+          mkdir -p relay/uav
+          while read -r name url; do
+            [ -z "$name" ] && continue
+            echo "fetch $name"
+            curl -sSL --retry 3 -o "relay/uav/$name" "$url"
+          done <<'EOF'
+          03_v2.png https://pikaso.cdnpk.net/private/production/5225044333/render.png?token=exp=1787702400~hmac=dfd635d4396ed6baa694de76fcb8d077c7ca6930e54817eb2e4a3d453c5011ec
+          12_v2.png https://pikaso.cdnpk.net/private/production/5225044516/render.png?token=exp=1787702400~hmac=71e2875786370526b5d736320846ca51ac4a38e64ebae1d3b79396036181d1c8
+          13_v2.png https://pikaso.cdnpk.net/private/production/5225048407/render.png?token=exp=1787702400~hmac=231fd26d66c0b8788be442f02f6ec73ffd2113179773ecf6d535d82a505d5abe
+          15_v2.png https://pikaso.cdnpk.net/private/production/5225050920/render.png?token=exp=1787702400~hmac=fcb06017fe3ff40a9d0639800948082ac8d8ffb9e8257c4675790dd4c2964b81
+          EOF
+          ls -la relay/uav
+      - name: commit images
+        run: |
+          git config user.name "ks-relay"
+          git config user.email "relay@users.noreply.github.com"
+          git add relay
+          git commit -m "add regenerated uav slide images v2 (retry)" || exit 0
+          n=0
+          until git push; do
+            n=$((n+1)); [ $n -ge 3 ] && exit 1
+            git pull --rebase
+          done

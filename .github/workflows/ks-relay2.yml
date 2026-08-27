@@ -9,20 +9,22 @@ jobs:
       - uses: actions/checkout@v4
       - name: download images
         run: |
-          mkdir -p relay
+          mkdir -p relay/uav
           while read -r name url; do
             [ -z "$name" ] && continue
             echo "fetch $name"
-            curl -sSL --retry 3 -o "relay/$name" "$url"
+            curl -sSL --retry 3 -o "relay/uav/$name" "$url"
           done <<'EOF'
-          02_new.png https://pikaso.cdnpk.net/private/production/5213805211/render.png?token=exp=1787443200~hmac=ccdbac45ce6128b4f39e87c0a5771276e8364ace9dc8330599e3e108eb443ca5
-          15_new.png https://pikaso.cdnpk.net/private/production/5213788505/render.png?token=exp=1787443200~hmac=bb29764820c3b7c4b4a523bf1206a2100764f987aeb030e4d2e2e524d36070ab
+          03_v2.png https://pikaso.cdnpk.net/private/production/5225044333/render.png?token=exp=1787702400~hmac=dfd635d4396ed6baa694de76fcb8d077c7ca6930e54817eb2e4a3d453c5011ec
+          12_v2.png https://pikaso.cdnpk.net/private/production/5225044516/render.png?token=exp=1787702400~hmac=71e2875786370526b5d736320846ca51ac4a38e64ebae1d3b79396036181d1c8
+          13_v2.png https://pikaso.cdnpk.net/private/production/5225048407/render.png?token=exp=1787702400~hmac=231fd26d66c0b8788be442f02f6ec73ffd2113179773ecf6d535d82a505d5abe
+          15_v2.png https://pikaso.cdnpk.net/private/production/5225050920/render.png?token=exp=1787702400~hmac=fcb06017fe3ff40a9d0639800948082ac8d8ffb9e8257c4675790dd4c2964b81
           EOF
-          ls -la relay
+          ls -la relay/uav
       - name: commit images
         run: |
           git config user.name "ks-relay"
           git config user.email "relay@users.noreply.github.com"
           git add relay
-          git commit -m "add regenerated slide images" || echo "no changes"
+          git commit -m "add regenerated uav slide images v2" || echo "no changes"
           git push

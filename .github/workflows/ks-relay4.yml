@@ -1,0 +1,38 @@
+name: ks-image-relay-4
+on: push
+concurrency:
+  group: ks-relay
+  cancel-in-progress: false
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: download images
+        run: |
+          mkdir -p relay/uav
+          while read -r name url; do
+            [ -z "$name" ] && continue
+            echo "fetch $name"
+            curl -sSL --retry 3 -o "relay/uav/$name" "$url"
+            head -c 100 "relay/uav/$name" | grep -qi "<html" && { echo "ERROR: $name is an error page"; exit 1; } || true
+          done <<'EOF'
+          03_v3.png https://pikaso.cdnpk.net/private/production/5225044333/render.png?token=exp=1788220800~hmac=160b9e709ca1ef22b4367580963a59fec7972595fb0782fa667e92b16d717b18
+          12_v3.png https://pikaso.cdnpk.net/private/production/5225044516/render.png?token=exp=1788220800~hmac=b7edc50f6715de4fdf1931651ed822a2c6c5a7f9ea4771abbc6cd6bd7998ceff
+          13_v3.png https://pikaso.cdnpk.net/private/production/5225048407/render.png?token=exp=1788220800~hmac=c0e1ee1d6d9dc7af80634ea7ad21bc6d47a4dd5fa7027bae547f8f60c33150b5
+          15_v3.png https://pikaso.cdnpk.net/private/production/5225050920/render.png?token=exp=1788220800~hmac=4fa6ed7458b5521ecd883885d4414b10e7638750be12eed8108b0c0d86beb67b
+          EOF
+          ls -la relay/uav
+      - name: commit images
+        run: |
+          git config user.name "ks-relay"
+          git config user.email "relay@users.noreply.github.com"
+          git add relay
+          git commit -m "add regenerated uav slide images v3 (fresh tokens)" || exit 0
+          n=0
+          until git push; do
+            n=$((n+1)); [ $n -ge 3 ] && exit 1
+            git pull --rebase
+          done
